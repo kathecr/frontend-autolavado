@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
+import Home from "./views/Home";
+import Login from "./views/Login";
+import NotFound from "./views/NotFound";
 import Layout from "./components/Layout";
 
 function App() {
