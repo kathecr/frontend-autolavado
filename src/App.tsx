@@ -5,7 +5,7 @@ import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Layout from "./components/Layout";
 
-function App() {
+function App(){
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
