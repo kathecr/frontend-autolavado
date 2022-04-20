@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Paper, Box, TextField, FormGroup, Button } from "@mui/material";
+import { Paper, Box, TextField, FormGroup, Button, FormControl } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 interface user {
   username: string;
@@ -8,9 +9,9 @@ interface user {
 }
 
 const Login = () => {
+  let navigate = useNavigate();
   const { register, handleSubmit } = useForm<user>();
   const onSubmit: SubmitHandler<user> = async (data) => {
-    console.log(data);
     const response = await fetch("http://localhost:3333/auth/login", {
       method: "POST",
       headers: {
@@ -19,7 +20,15 @@ const Login = () => {
       body: JSON.stringify(data),
     })
     const res = await response.json();
-    console.log(res)
+    console.log(res);
+    if(response.status === 200){
+      localStorage.setItem('token', res.result.token);
+      console.log('token', res.token);
+      navigate('/',{replace:true})
+    }else{
+      console.log('error de atuenticacion')
+      localStorage.setItem('token', 'error');
+    }
   };
 
   return (
@@ -27,17 +36,10 @@ const Login = () => {
       <Paper variant="outlined">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col space-y-4">
-            <TextField
-              label="username"
-              variant="outlined"
-              required
+            <TextField label="username" variant="outlined" required
               {...register("username")}
             />
-            <TextField
-              label="password"
-              variant="outlined"
-              type="password"
-              required
+            <TextField label="password" variant="outlined" type="password"  required
               {...register("password")}
             />
             <Button variant="contained" type="submit">
